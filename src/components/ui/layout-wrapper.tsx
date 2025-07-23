@@ -105,7 +105,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 						// initial={{ opacity: 0, x: 20 }}
 						// animate={{ opacity: 1, x: 0 }}
 						transition={{ delay: 0.2, duration: 0.6 }}
-						className="bg-[#0a0a0a] rounded-2xl overflow-visible"
+						className="bg-[#0a0a0a] rounded-2xl overflow-hidden"
 						style={{ padding: 0, position: 'relative', zIndex: 10 }}
 					>
 						<div className="p-4">
@@ -113,21 +113,19 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								8-BIT FIRE
 							</h3>
 						</div>
-						<div className="px-2 pb-4" style={{ position: 'relative', zIndex: 1 }}>
-							<div style={{ marginLeft: '-16px' }}> {/* Compensate for component padding */}
-								<EightBitScreen
-									rows={12}
-									cols={16}
-									pixelSize={16}
-									showFire={true}
-									enableHover={true}
-									enableScatter={true}
-									showScanlines={true}
-									showGlitchEffect={true}
-									backgroundColor="#fff"
-									className="mx-auto"
-								/>
-							</div>
+						<div className="flex justify-center items-center px-4 pb-4">
+							<EightBitScreen
+								rows={12}
+								cols={16}
+								pixelSize={16}
+								showFire={true}
+								enableHover={true}
+								enableScatter={true}
+								showScanlines={true}
+								showGlitchEffect={true}
+								backgroundColor="#000"
+								className=""
+							/>
 						</div>
 					</motion.div>
 				</div>

@@ -39,7 +39,7 @@ export function Navbar() {
 				<div className="relative flex items-center justify-between rounded-2xl  border  border-[#3B3A3A] bg-[#151515]/90 px-6 py-3 backdrop-blur-md shadow-lg">
 					{/* Logo */}
 					<Link href="/" className="flex items-center space-x-2">
-						<span className="text-xl font-bold text-white">Portfolio</span>
+						<span className="text-xl font-bold text-white">Sebastian Fabara</span>
 						<div className="h-6 w-6 rounded-full bg-[#fe7500]" />
 					</Link>
 

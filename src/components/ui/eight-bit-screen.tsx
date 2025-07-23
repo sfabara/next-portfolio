@@ -89,10 +89,10 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
   const [blurAmount, setBlurAmount] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const pixelRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const scatterTimeoutRef = useRef<number | undefined>();
-  const fireAnimationRef = useRef<number>();
+  const scatterTimeoutRef = useRef<number | undefined>(null);
+  const fireAnimationRef = useRef<number>(null);
   const fireBufferRef = useRef<number[][]>([]);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(null);
 
   // Initialize fire buffer
   useEffect(() => {
