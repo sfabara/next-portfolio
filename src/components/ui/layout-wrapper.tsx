@@ -68,14 +68,10 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 			</div>
 
 			{/* Main Content */}
-			<div className="pt-24">
-				<div className="mr-[320px]"> {/* Reserve space for sticky cards (280px width + 40px spacing) */}
-					{children}
-				</div>
-			</div>
+			<div className="pt-24 w-9/12">{children}</div>
 
 			{/* Sticky Cards Section */}
-			<div className="fixed right-4 top-[40vh] w-[280px] z-40">
+			<div className="absolute right-4 top-[40vh] w-[280px] z-40">
 				<div className="space-y-96">
 					{/* Large spacing to create scroll distance */}
 					<motion.div
