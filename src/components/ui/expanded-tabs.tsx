@@ -8,16 +8,17 @@ import { cn } from "@/lib/utils"
 interface Tab {
   title: string
   icon: LucideIcon
-  type?: never
 }
 
 interface Separator {
   type: "separator"
-  title?: never
-  icon?: never
 }
 
 type TabItem = Tab | Separator
+
+function isSeparator(item: TabItem): item is Separator {
+  return 'type' in item && item.type === 'separator'
+}
 
 interface ExpandedTabsProps {
   tabs: TabItem[]
@@ -81,7 +82,7 @@ export function ExpandedTabs({
       )}
     >
       {tabs.map((tab, index) => {
-        if (tab.type === "separator") {
+        if (isSeparator(tab)) {
           return <Separator key={`separator-${index}`} />
         }
 
