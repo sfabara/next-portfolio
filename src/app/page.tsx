@@ -4,8 +4,7 @@ import { LayoutWrapper } from "@/components/ui/layout-wrapper"
 import { MaskedDiv, GridPattern, DotPattern } from "@/components/ui/masked-div"
 import { motion } from "framer-motion"
 import WrapButton from "@/components/ui/wrap-button"
-import { Card } from "@/components/ui/card"
-import { StickySection, StickySectionsContainer } from "@/components/ui/sticky-sections"
+import { Footer } from "@/components/ui/footer"
 
 export default function Home() {
   return (
@@ -387,6 +386,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
       
     </LayoutWrapper>
   )

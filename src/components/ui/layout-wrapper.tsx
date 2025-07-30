@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
 import EightBitScreen from "./eight-bit-screen";
+import { Linkedin, Github, Instagram, Mail } from "lucide-react";
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
@@ -93,18 +94,45 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 						ref={(el) => {
 							if (el) cardsRef.current[1] = el;
 						}}
-						transition={{ delay: 0.1, duration: 0.6 }}
+						transition={{ delay: 0.3, duration: 0.6 }}
 						animate={{
 							y: isNotificationHovered ? 80 : 0,
 						}}
-						className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-6 border border-[#3B3A3A] relative z-20"
+						className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-2 py-4 border border-[#3B3A3A] relative"
+						style={{ zIndex: 5 }}
 					>
-						<h3 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400 mb-2">
-							GITHUB
-						</h3>
-						<p className="text-lg font-semibold text-[#151515] dark:text-white">
-							100+ Repositories
-						</p>
+						<div className="flex justify-center items-center gap-4">
+							<a
+								href="https://linkedin.com/in/your-profile"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="p-2 rounded-lg bg-[#0077b5] hover:bg-[#005885] transition-colors duration-200 group"
+							>
+								<Linkedin className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+							<a
+								href="https://github.com/your-username"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="p-2 rounded-lg bg-[#333] hover:bg-[#24292e] transition-colors duration-200 group"
+							>
+								<Github className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+							<a
+								href="https://instagram.com/your-profile"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="p-2 rounded-lg bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:from-[#6a2c91] hover:via-[#d41717] hover:to-[#d89c3a] transition-all duration-200 group"
+							>
+								<Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+							<a
+								href="mailto:your-email@example.com"
+								className="p-2 rounded-lg bg-[#34d399] hover:bg-[#10b981] transition-colors duration-200 group"
+							>
+								<Mail className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+						</div>
 					</motion.div>
 					<motion.div
 						ref={(el) => {
@@ -117,11 +145,11 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 						className="bg-[#0a0a0a] rounded-2xl overflow-hidden"
 						style={{ padding: 0, position: 'relative', zIndex: 10 }}
 					>
-						<div className="p-4">
+						{/* <div className="p-4">
 							<h3 className="text-sm font-medium text-gray-400 mb-2">
-								8-BIT FIRE
+								More Custom Components 
 							</h3>
-						</div>
+						</div> */}
 						<div className="flex justify-center items-center px-4 pb-4">
 							<EightBitScreen
 								rows={12}
@@ -137,6 +165,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 							/>
 						</div>
 					</motion.div>
+					
 				</div>
 			</div>
 		</div>

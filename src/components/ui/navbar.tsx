@@ -15,14 +15,15 @@ import {
 	User,
 	FileText,
 	ShoppingBag,
+	ToolCase
 } from "lucide-react";
 import { NotificationList } from "@/components/animate-ui/ui-elements/notification-list";
 
 export function Navbar() {
 	const tabs = [
 		{ title: "Home", icon: Home },
+		{ title: "Projects", icon: ToolCase },
 		{ title: "About", icon: Info },
-		{ title: "Projects", icon: Briefcase },
 		{ type: "separator" as const },
 		{ title: "Contact", icon: Mail },
 		{ title: "Blog", icon: FileText },
