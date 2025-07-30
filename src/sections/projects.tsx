@@ -9,6 +9,7 @@ import {
   DialogContainer,
 } from '@/components/ui/linear-dialog';
 import { Plus } from 'lucide-react';
+import { motion } from 'motion/react';
 
 const items = [
   {
@@ -34,7 +35,7 @@ const items = [
     tags: ['Pathway', 'Adventure', 'Peaks', 'Challenging', 'Breathtaking'],
   },
 ];
-export default function LinearCard() {
+export default function Projects() {
   return (
     <div className='flex gap-4'>
       {items.map((item, i) => {
@@ -47,35 +48,38 @@ export default function LinearCard() {
                 duration: 0.5,
               }}
             >
-              <DialogTrigger
-                style={{
-                  borderRadius: '12px',
-                }}
-                className='flex w-full flex-col overflow-hidden  border    dark:bg-black bg-gray-300 hover:bg-gray-200 dark:hover:bg-gray-950'
-              >
-                <DialogImage
-                  // @ts-ignore
-                  src={item.url?.src}
-                  alt=''
-                  className=' h-64 w-full object-cover'
-                />
-                <div className='flex flex-grow flex-row items-end justify-between p-3'>
-                  <div>
-                    <DialogTitle className='text-zinc-950 text-xl dark:text-zinc-50'>
-                      {item.title}
-                    </DialogTitle>
-                  </div>
-                  <button className='absolute bottom-2 right-2 p-2 dark:bg-gray-900 bg-gray-400 hover:bg-gray-500 rounded-full dark:hover:bg-gray-800'>
-                    <Plus className='w-6 h-6' />
-                  </button>
+              <DialogTrigger className='bg-[#e8d5b8] dark:bg-[#2a2928] rounded-2xl p-6 border border-[#3B3A3A] hover:shadow-lg transition-all duration-300 flex w-full flex-col overflow-hidden'>
+                <div className="h-48 bg-gradient-to-br from-[#e8d5b8] to-[#3B3A3A] rounded-lg mb-4 flex items-center justify-center">
+                  <DialogImage
+                    // @ts-ignore
+                    src={item.url?.src}
+                    alt=''
+                    className='w-full h-full object-cover rounded-lg'
+                  />
                 </div>
+                <DialogTitle className='text-xl font-bold text-[#151515] dark:text-white mb-2'>
+                  {item.title}
+                </DialogTitle>
+                <p className="text-sm text-[#3B3A3A] dark:text-gray-400 mb-4 line-clamp-3">
+                  {item.description}
+                </p>
+                <div className="flex gap-2 mb-4">
+                  {item.tags.slice(0, 3).map((tag, index) => (
+                    <span key={index} className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <button className='absolute bottom-2 right-2 p-2 bg-[#f5f3ee] dark:bg-[#1f1e1d] hover:bg-[#e8d5b8] dark:hover:bg-[#3B3A3A] rounded-full transition-colors'>
+                  <Plus className='w-4 h-4 text-[#3B3A3A] dark:text-gray-400' />
+                </button>
               </DialogTrigger>
               <DialogContainer className='pt-20'>
                 <DialogContent
                   style={{
                     borderRadius: '24px',
                   }}
-                  className=' relative flex h-full mx-auto flex-col overflow-y-auto border dark:bg-black bg-gray-300 hover:bg-gray-200 dark:hover:bg-gray-950 lg:w-[900px] w-[80%] '
+                  className='bg-[#e8d5b8] dark:bg-[#2a2928] border border-[#3B3A3A] shadow-2xl relative flex h-full mx-auto flex-col overflow-y-auto lg:w-[900px] w-[80%]'
                 >
                   <DialogImage
                     // @ts-ignore
@@ -84,7 +88,7 @@ export default function LinearCard() {
                     className='h-full  object-contain w-[60%] mx-auto'
                   />
                   <div className='p-6'>
-                    <DialogTitle className='text-5xl text-zinc-950 dark:text-zinc-50'>
+                    <DialogTitle className='text-4xl font-bold text-[#151515] dark:text-white mb-4'>
                       {item.title}
                     </DialogTitle>
 
@@ -96,12 +100,19 @@ export default function LinearCard() {
                         exit: { opacity: 0, scale: 0.8, y: -50 },
                       }}
                     >
-                      <p className='mt-2 text-zinc-500 dark:text-zinc-500'>
+                      <p className='text-base text-[#3B3A3A] dark:text-gray-400 mb-6 leading-relaxed'>
                         {item.description}
                       </p>
+                      <div className="flex flex-wrap gap-2">
+                        {item.tags.map((tag, index) => (
+                          <span key={index} className="text-sm px-3 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-full text-[#3B3A3A] dark:text-gray-400">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </DialogDescription>
                   </div>
-                  <DialogClose className='text-zinc-50  dark:bg-gray-900 bg-gray-400 p-4 hover:bg-gray-500 rounded-full dark:hover:bg-gray-800' />
+                  <DialogClose className='text-[#3B3A3A] dark:text-gray-400 bg-[#f5f3ee] dark:bg-[#1f1e1d] p-4 hover:bg-[#e8d5b8] dark:hover:bg-[#3B3A3A] rounded-full transition-colors' />
                 </DialogContent>
               </DialogContainer>
             </Dialog>

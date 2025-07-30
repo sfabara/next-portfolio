@@ -5,6 +5,7 @@ import { MaskedDiv, GridPattern, DotPattern } from "@/components/ui/masked-div"
 import { motion } from "framer-motion"
 import WrapButton from "@/components/ui/wrap-button"
 import { Footer } from "@/components/ui/footer"
+import Projects from "@/sections/projects"
 
 export default function Home() {
   return (
@@ -193,8 +194,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Project Card 1 */}
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -223,7 +223,6 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Project Card 2 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -252,7 +251,6 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Project Card 3 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -280,7 +278,8 @@ export default function Home() {
                 </span>
               </div>
             </motion.div>
-          </div>
+          </div> */}
+          <Projects />
 
           <div className="text-center mt-12">
             <WrapButton href="/projects">

@@ -18,6 +18,7 @@ import {
 	ToolCase
 } from "lucide-react";
 import { NotificationList } from "@/components/animate-ui/ui-elements/notification-list";
+import { RollingText } from "../animate-ui/text/rolling";
 
 export function Navbar() {
 	const tabs = [
@@ -40,8 +41,9 @@ export function Navbar() {
 				<div className="relative flex items-center justify-between rounded-2xl  border  border-[#3B3A3A] bg-[#151515]/90 px-6 py-3 backdrop-blur-md shadow-lg">
 					{/* Logo */}
 					<Link href="/" className="flex items-center space-x-2">
-						<span className="text-xl font-bold text-white">Sebastian Fabara</span>
-						<div className="h-6 w-6 rounded-full bg-[#fe7500]" />
+						<RollingText text="Sebastian Fabara" className="text-xl font-bold text-white" />
+						{/* <span className="text-xl font-bold text-white">Sebastian Fabara</span> */}
+						{/* <div className="h-6 w-6 rounded-full bg-[#fe7500]" /> */}
 					</Link>
 
 					{/* Navigation Tabs */}
