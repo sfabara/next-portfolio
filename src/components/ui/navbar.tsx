@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState} from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ import {
 import { NotificationList } from "@/components/animate-ui/ui-elements/notification-list";
 import { RollingText } from "../animate-ui/text/rolling";
 import { useLenis } from "./lenis-provider";
+import Image from "next/image";
 
 export function Navbar() {
 	const [isHovered, setIsHovered] = useState(false);
@@ -69,7 +70,14 @@ export function Navbar() {
 						>
 							{/* Profile Icon */}
 							<div className="h-10 w-10 rounded-full bg-[#3B3A3A] flex items-center justify-center">
-								<User className="h-6 w-6 text-white" />
+								{/* <User className="h-6 w-6 text-white" /> */}
+								<Image 
+									src="/user.jpg" 
+									alt="Sebastian Fabara" 
+									width={40} 
+									height={40} 
+									style={{ borderRadius: "50%", objectFit: "cover" }}
+								/>
 							</div>
 
 							{/* Name and Title */}
