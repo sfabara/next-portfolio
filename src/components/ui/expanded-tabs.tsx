@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 interface Tab {
   title: string
   icon: LucideIcon
+  target?: string
 }
 
 interface Separator {
@@ -99,8 +100,8 @@ export function ExpandedTabs({
             className={cn(
               "relative flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-300",
               selected === index
-                ? cn("bg-muted", activeColor)
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                ? cn("bg-[#e8d5b8] dark:bg-muted", activeColor)
+                : "text-[#3B3A3A] dark:text-muted-foreground hover:bg-[#e8d5b8] dark:hover:bg-muted hover:text-[#151515] dark:hover:text-foreground"
             )}
           >
             <Icon size={20} />

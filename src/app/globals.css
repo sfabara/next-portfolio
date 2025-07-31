@@ -119,6 +119,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Disable default smooth scrolling to let Lenis handle it */
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 @layer utilities {

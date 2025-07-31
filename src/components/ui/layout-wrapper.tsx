@@ -23,44 +23,63 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 	useLayoutEffect(() => {
 		const cards = cardsRef.current;
 
-		// Create sticky effect for each card
-		cards.forEach((card, index) => {
-			if (!card) return;
+		// Function to setup scroll triggers
+		const setupScrollTriggers = () => {
+			// Clear existing triggers
+			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-			const startPosition = 150 + index * 120;
+			// Only apply sticky effects on larger screens (desktop)
+			if (window.innerWidth >= 1024) {
+				cards.forEach((card, index) => {
+					if (!card) return;
 
-			ScrollTrigger.create({
-				trigger: card,
-				start: `top ${startPosition}px`,
-				end: "max",
-				pin: true,
-				pinSpacing: false,
-				onToggle: (self) => {
-					if (self.isActive) {
-						card.style.zIndex = String(50 - index);
-					}
-				},
-			});
-		});
+					const startPosition = 150 + index * 150;
+
+					ScrollTrigger.create({
+						trigger: card,
+						start: `top ${startPosition}px`,
+						end: "max",
+						pin: true,
+						pinSpacing: false,
+						onToggle: (self) => {
+							if (self.isActive) {
+								card.style.zIndex = String(50 - index);
+							}
+						},
+					});
+				});
+			}
+		};
+
+		// Setup triggers initially
+		setupScrollTriggers();
+
+		// Handle window resize
+		const handleResize = () => {
+			setupScrollTriggers();
+		};
+
+		window.addEventListener('resize', handleResize);
 
 		// Clean up function
 		return () => {
 			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+			window.removeEventListener('resize', handleResize);
 		};
 	}, []);
 
 	return (
 		<div ref={containerRef} className="relative">
 			{/* Top Fixed Container */}
-			<div className="fixed top-0 left-0 right-0 z-50 flex">
-				{/* Navbar - 75% width */}
-				<div className="w-[75%]">
+			<div className="fixed top-0 left-0 right-0 z-50">
+				{/* Navbar - Full width on mobile, 75% on desktop */}
+				<div className="w-full lg:w-[75%]">
 					<Navbar />
 				</div>
 
-				{/* Notification List - Fixed on right next to navbar */}
+				{/* Notification List - Hidden on mobile, visible on larger screens */}
 				<div 
-					className="fixed top-4 right-4 z-50"
+					className="hidden lg:block fixed top-4 right-4 z-50"
 					onMouseEnter={() => setIsNotificationHovered(true)}
 					onMouseLeave={() => setIsNotificationHovered(false)}
 				>
@@ -68,13 +87,120 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 				</div>
 			</div>
 
-			{/* Main Content */}
-			<div className="pt-24 w-9/12">{children}</div>
+			{/* Main Content - Responsive width */}
+			<div className="pt-16 sm:pt-20 lg:pt-24 w-full lg:w-9/12 px-4 lg:px-0">
+				{children}
+			</div>
 
-			{/* Sticky Cards Section */}
-			<div className="absolute right-4 top-[40vh] w-[280px] z-40">
-				<div className="space-y-96">
-					{/* Large spacing to create scroll distance */}
+			{/* Mobile Connect Section - Only visible on mobile */}
+			<div className="lg:hidden px-4 sm:px-6 mt-8 mb-8">
+				<h2 className="text-xl font-bold text-center mb-6">Connect With Me</h2>
+				<div className="space-y-6">
+					{/* Mobile Connect Card */}
+					<motion.div
+						className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-4 text-[#ff8c00] relative shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden w-full max-w-[280px] mx-auto"
+						style={{
+							fontFamily: 'monospace',
+							imageRendering: 'pixelated',
+							filter: 'contrast(1.1) brightness(1.1)',
+						}}
+					>
+						{/* Scanlines effect */}
+						<div 
+							className="absolute inset-0 pointer-events-none"
+							style={{
+								background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,140,0,0.03) 2px, rgba(255,140,0,0.03) 4px)',
+								zIndex: 1
+							}}
+						/>
+						
+						{/* Green glowing circle */}
+						<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
+						
+						{/* Content */}
+						<div className="relative z-10">
+							<h3 className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80" style={{ fontFamily: 'monospace', textShadow: '0 0 8px rgba(255,140,0,0.5)' }}>
+								&gt; OPEN_TO_WORK.exe
+							</h3>
+							<p className="text-lg font-bold tracking-wide" style={{ fontFamily: 'monospace', textShadow: '0 0 12px rgba(255,140,0,0.4)' }}>
+								[CONNECT]
+							</p>
+							<div className="mt-2 text-xs opacity-60 font-mono">
+								STATUS: ONLINE
+							</div>
+						</div>
+						
+						{/* Corner decorations */}
+						<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
+						<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
+						<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
+						<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
+					</motion.div>
+
+					{/* Mobile Social Links */}
+					<motion.div className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-2 py-4 border border-[#3B3A3A] relative w-full max-w-[280px] mx-auto">
+						<div className="flex justify-center items-center gap-3">
+							<a
+								href="https://linkedin.com/in/your-profile"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="p-2 rounded-lg bg-[#0077b5] hover:bg-[#005885] transition-colors duration-200 group"
+							>
+								<Linkedin className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+							<a
+								href="https://github.com/your-username"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="p-2 rounded-lg bg-[#333] hover:bg-[#24292e] transition-colors duration-200 group"
+							>
+								<Github className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+							<a
+								href="https://instagram.com/your-profile"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="p-2 rounded-lg bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:from-[#6a2c91] hover:via-[#d41717] hover:to-[#d89c3a] transition-all duration-200 group"
+							>
+								<Instagram className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+							<a
+								href="mailto:your-email@example.com"
+								className="p-2 rounded-lg bg-[#34d399] hover:bg-[#10b981] transition-colors duration-200 group"
+							>
+								<Mail className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
+							</a>
+						</div>
+					</motion.div>
+
+					{/* Mobile Eight Bit Screen */}
+					<motion.div className="bg-[#ffe4be] rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" style={{ padding: 0, position: 'relative' }}>
+						<div className="flex justify-center items-center px-2">
+							<EightBitScreen
+								rows={10}
+								cols={14}
+								pixelSize={12}
+								showFire={true}
+								enableHover={true}
+								enableScatter={true}
+								showScanlines={true}
+								showGlitchEffect={true}
+								className="bg-[#ffe4be] dark:bg-[#343030]"
+							/>
+						</div>
+					</motion.div>
+				</div>
+
+				{/* Mobile Notification List */}
+				<div className="w-full mt-8">
+					<NotificationList />
+				</div>
+			</div>
+
+			{/* Desktop Sticky Cards Section - Only visible on desktop */}
+			<div className="hidden lg:block absolute right-4 top-[40vh] w-[280px] z-40">
+				<div className="space-y-64">
+					{/* Desktop Connect Card */}
 					<motion.div
 						ref={(el) => {
 							if (el) cardsRef.current[0] = el;
@@ -83,13 +209,46 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 						animate={{
 							y: isNotificationHovered ? 80 : 0,
 						}}
-						className="bg-[#fe7500] dark:bg-[#ff3f17] rounded-2xl p-6 text-white relative z-30"
+						className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-6 text-[#ff8c00] relative z-30 shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden"
+						style={{
+							fontFamily: 'monospace',
+							imageRendering: 'pixelated',
+							filter: 'contrast(1.1) brightness(1.1)',
+						}}
 					>
-						<h3 className="text-sm font-medium mb-2 opacity-90">
-							OPEN TO WORK
-						</h3>
-						<p className="text-2xl font-bold">Let's Connect</p>
+						{/* Scanlines effect */}
+						<div 
+							className="absolute inset-0 pointer-events-none"
+							style={{
+								background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,140,0,0.03) 2px, rgba(255,140,0,0.03) 4px)',
+								zIndex: 1
+							}}
+						/>
+						
+						{/* Green glowing circle */}
+						<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
+						
+						{/* Content */}
+						<div className="relative z-10">
+							<h3 className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80" style={{ fontFamily: 'monospace', textShadow: '0 0 8px rgba(255,140,0,0.5)' }}>
+								&gt; OPEN_TO_WORK.exe
+							</h3>
+							<p className="text-xl font-bold tracking-wide" style={{ fontFamily: 'monospace', textShadow: '0 0 12px rgba(255,140,0,0.4)' }}>
+								[CONNECT]
+							</p>
+							<div className="mt-2 text-xs opacity-60 font-mono">
+								STATUS: ONLINE
+							</div>
+						</div>
+						
+						{/* Corner decorations */}
+						<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
+						<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
+						<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
+						<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
 					</motion.div>
+
+					{/* Desktop Social Links */}
 					<motion.div
 						ref={(el) => {
 							if (el) cardsRef.current[1] = el;
@@ -134,6 +293,8 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 							</a>
 						</div>
 					</motion.div>
+
+					{/* Desktop Eight Bit Screen */}
 					<motion.div
 						ref={(el) => {
 							if (el) cardsRef.current[2] = el;
@@ -142,15 +303,10 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 						animate={{
 							y: isNotificationHovered ? 80 : 0,
 						}}
-						className="bg-[#0a0a0a] rounded-2xl overflow-hidden"
+						className="bg-[#ffe4be] rounded-2xl overflow-hidden"
 						style={{ padding: 0, position: 'relative', zIndex: 10 }}
 					>
-						{/* <div className="p-4">
-							<h3 className="text-sm font-medium text-gray-400 mb-2">
-								More Custom Components 
-							</h3>
-						</div> */}
-						<div className="flex justify-center items-center px-4 pb-4">
+						<div className="flex justify-center items-center px-4">
 							<EightBitScreen
 								rows={12}
 								cols={16}
@@ -160,12 +316,10 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								enableScatter={true}
 								showScanlines={true}
 								showGlitchEffect={true}
-								backgroundColor="#000"
-								className=""
+								className="bg-[#ffe4be] dark:bg-[#343030]"
 							/>
 						</div>
 					</motion.div>
-					
 				</div>
 			</div>
 		</div>

@@ -6,19 +6,22 @@ import { motion } from "framer-motion"
 import WrapButton from "@/components/ui/wrap-button"
 import { Footer } from "@/components/ui/footer"
 import Projects from "@/sections/projects"
+import { useLenis } from "@/components/ui/lenis-provider"
 
 export default function Home() {
+  const { lenis } = useLenis();
+
   return (
-    <LayoutWrapper>
+    <LayoutWrapper >
       {/* Main Section with Grid Layout */}
-      <section className="relative min-h-screen overflow-hidden ">
+      <section id="home-section" className="relative min-h-screen overflow-hidden border-2 border-[#3B3A3A90] rounded-xl m-5 p-6">
         {/* Background Grid Pattern */}
         <div className="absolute inset-0">
           <GridPattern className="opacity-20 stroke-[#3B3A3A]" />
         </div>
         
         {/* Main Content Container */}
-        <div className="relative z-10 container mx-auto px-4 pt-24">
+        <div className="relative z-10 container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[calc(100vh-6rem)]">
             
             {/* Left Column - About Info */}
@@ -29,21 +32,98 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
                 className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-6 border border-[#3B3A3A]"
               >
-                <h3 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400 mb-2">
-                  SOFTWARE ENGINEER
+                <h3 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400 mb-6">
+                  Experience Timeline
                 </h3>
-                <h2 className="text-2xl font-bold text-[#151515] dark:text-white mb-4">
-                  Sebastian Fabara
-                </h2>
-                <p className="text-sm text-[#3B3A3A] dark:text-gray-500 leading-relaxed">
-                  Core contributor to cryptocurrency fintech applications and full-stack web development 
-                  at Byte Federal. 3+ years experience building scalable React Native and web applications.
-                </p>
+                
+                {/* Timeline */}
+                <div className="relative">
+                  {/* Timeline Line */}
+                  <div className="absolute left-3 top-2 bottom-2 w-0.5 bg-[#3B3A3A] dark:bg-gray-600"></div>
+                  
+                  {/* Timeline Items */}
+                  <div className="space-y-6">
+                    {/* Current - Byte Federal */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1, duration: 0.4 }}
+                      className="relative flex items-start"
+                    >
+                      <div className="flex-shrink-0 w-6 h-6 bg-[#fe7500] border-2 border-white dark:border-[#1f1e1d] rounded-full"></div>
+                      <div className="ml-4">
+                        <h4 className="text-xs font-semibold text-[#151515] dark:text-white">Byte Federal</h4>
+                        <p className="text-xs text-[#fe7500] font-medium">Software Engineer</p>
+                        <p className="text-xs text-[#3B3A3A] dark:text-gray-500">June 2021 – Current</p>
+                      </div>
+                    </motion.div>
+
+                    {/* Interactive Alchemy */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2, duration: 0.4 }}
+                      className="relative flex items-start"
+                    >
+                      <div className="flex-shrink-0 w-6 h-6 bg-[#ff3f17] border-2 border-white dark:border-[#1f1e1d] rounded-full"></div>
+                      <div className="ml-4">
+                        <h4 className="text-xs font-semibold text-[#151515] dark:text-white">Interactive Alchemy</h4>
+                        <p className="text-xs text-[#ff3f17] font-medium">Owner</p>
+                        <p className="text-xs text-[#3B3A3A] dark:text-gray-500">Current</p>
+                      </div>
+                    </motion.div>
+
+                    {/* Delta Air Lines */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.4 }}
+                      className="relative flex items-start"
+                    >
+                      <div className="flex-shrink-0 w-6 h-6 bg-[#3B3A3A] border-2 border-white dark:border-[#1f1e1d] rounded-full"></div>
+                      <div className="ml-4">
+                        <h4 className="text-xs font-semibold text-[#151515] dark:text-white">Delta Air Lines</h4>
+                        <p className="text-xs text-[#3B3A3A] dark:text-gray-400 font-medium">Software Engineer Co-Op</p>
+                        <p className="text-xs text-[#3B3A3A] dark:text-gray-500">May 2019 – June 2021</p>
+                      </div>
+                    </motion.div>
+
+                    {/* AMD */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.4 }}
+                      className="relative flex items-start"
+                    >
+                      <div className="flex-shrink-0 w-6 h-6 bg-gray-400 border-2 border-white dark:border-[#1f1e1d] rounded-full"></div>
+                      <div className="ml-4">
+                        <h4 className="text-xs font-semibold text-[#151515] dark:text-white">AMD</h4>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">Debug & Validation Intern</p>
+                        <p className="text-xs text-[#3B3A3A] dark:text-gray-500">Jan 2020 – June 2020</p>
+                      </div>
+                    </motion.div>
+
+                    {/* University */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.4 }}
+                      className="relative flex items-start"
+                    >
+                      <div className="flex-shrink-0 w-6 h-6 bg-gray-300 border-2 border-white dark:border-[#1f1e1d] rounded-full"></div>
+                      <div className="ml-4">
+                        <h4 className="text-xs font-semibold text-[#151515] dark:text-white">University of Central Florida</h4>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">Bachelor of Science in CS</p>
+                        <p className="text-xs text-[#3B3A3A] dark:text-gray-500">Aug 2016 – July 2021</p>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
               </motion.div>
             </div>
 
             {/* Center Column - Main Feature */}
-            <div className="lg:col-span-6 flex items-center justify-center">
+            <div className="lg:col-span-9 flex items-center justify-center">
               <MaskedDiv gradient="radial" className="w-full">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -54,7 +134,7 @@ export default function Home() {
                   {/* Specification Header */}
                   <div className="flex items-center justify-between mb-8">
                     <h3 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400">
-                      EXPERTISE
+                      EXPERTISE & SKILLS
                     </h3>
                     <div className="flex gap-2">
                       <span className="text-xs px-3 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-full text-[#3B3A3A] dark:text-gray-400">
@@ -62,6 +142,12 @@ export default function Home() {
                       </span>
                       <span className="text-xs px-3 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-full text-[#3B3A3A] dark:text-gray-400">
                         BACKEND
+                      </span>
+                      <span className="text-xs px-3 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-full text-[#3B3A3A] dark:text-gray-400">
+                        SYSTEM DESIGN
+                      </span>
+                      <span className="text-xs px-3 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-full text-[#3B3A3A] dark:text-gray-400">
+                        UI/UX
                       </span>
                     </div>
                   </div>
@@ -75,11 +161,11 @@ export default function Home() {
                       className="mb-8"
                     >
                       <h1 className="text-4xl lg:text-6xl font-bold mb-2 text-[#151515] dark:text-white">
-                        Cryptocurrency
+                        Software Engineer
                       </h1>
-                      <p className="text-2xl lg:text-3xl font-bold text-[#fe7500] dark:text-[#ff3f17]">
+                      {/* <p className="text-2xl lg:text-3xl font-bold text-[#fe7500] dark:text-[#ff3f17]">
                         & FinTech Solutions
-                      </p>
+                      </p> */}
                     </motion.div>
 
                     {/* Skills Grid */}
@@ -106,68 +192,50 @@ export default function Home() {
 
                     {/* Experience Info */}
                     <div className="mb-8">
-                      <h4 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400 mb-2">
+                      {/* <h4 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400 mb-2">
                         EXPERIENCE
-                      </h4>
+                      </h4> */}
                       <p className="text-sm text-[#3B3A3A] dark:text-gray-500">
-                        3+ years at Byte Federal building cryptocurrency wallets, payment systems, and fintech applications.
+                        5+ years of experience
                       </p>
                     </div>
 
                     {/* CTA Button */}
-                    <WrapButton href="/projects">
-                      VIEW PROJECTS
-                    </WrapButton>
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => {
+                          const projectsSection = document.getElementById('projects-section');
+                          if (projectsSection && lenis) {
+                            lenis.scrollTo(projectsSection, { duration: 1.5 });
+                          }
+                        }}
+                        className="group cursor-pointer border border-[#3B3A3A] bg-[#151515] gap-2 h-[64px] flex items-center p-[11px] rounded-full hover:shadow-lg transition-all duration-300"
+                      >
+                      <div className="border border-[#3B3A3A] bg-[#ff3f17] h-[43px] rounded-full flex items-center justify-center text-white">
+                        <p className="font-medium tracking-tight mr-3 ml-2 flex items-center gap-2 justify-center">
+                          VIEW PROJECTS
+                        </p>
+                      </div>
+                      <div className="text-[#3b3a3a] group-hover:ml-2 ease-in-out transition-all size-[26px] flex items-center justify-center rounded-full border-2 border-[#3b3a3a]">
+                        <svg
+                          width="18"
+                          height="18"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          className="group-hover:rotate-45 ease-in-out transition-all"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                      </div>
+                    </button>
+                    </div>
                   </div>
                 </motion.div>
               </MaskedDiv>
             </div>
 
-            {/* Right Column - Feature Cards */}
-            <div className="lg:col-span-3 flex flex-col gap-6 justify-center">
-              {/* Contact Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-6 border border-[#3B3A3A]"
-              >
-                <h3 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400 mb-2">
-                  CONTACT
-                </h3>
-                <h4 className="text-lg font-bold text-[#151515] dark:text-white mb-3">
-                  Let's Connect
-                </h4>
-                <p className="text-sm text-[#3B3A3A] dark:text-gray-500 mb-4">
-                  Ready to discuss your next project or collaboration?
-                </p>
-                <WrapButton href="mailto:sfabaraa@gmail.com" className="w-full">
-                  GET IN TOUCH
-                </WrapButton>
-              </motion.div>
-
-              {/* Status Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-6 border border-[#3B3A3A]"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-medium text-[#3B3A3A] dark:text-gray-400">
-                    STATUS
-                  </h3>
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                </div>
-                <h4 className="text-lg font-bold text-[#151515] dark:text-white mb-2">
-                  Available for Work
-                </h4>
-                <p className="text-xs text-[#3B3A3A] dark:text-gray-500">
-                  Currently accepting new projects and collaborations
-                </p>
-              </motion.div>
-            </div>
-           
+            
           </div>
         </div>
 
@@ -177,120 +245,8 @@ export default function Home() {
         <div className="absolute top-1/2 right-10 w-16 h-16 bg-[#fe7500] rounded opacity-10" />
       </section>
 
-      {/* Featured Projects Section */}
-      <section className="relative py-24 bg-[#f5f3ee] dark:bg-[#1f1e1d]">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#151515] dark:text-white mb-4">
-              Featured Projects
-            </h2>
-            <p className="text-lg text-[#3B3A3A] dark:text-gray-400 max-w-2xl mx-auto">
-              A selection of my recent work showcasing modern web technologies and creative solutions
-            </p>
-          </motion.div>
-
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="bg-[#e8d5b8] dark:bg-[#2a2928] rounded-2xl p-6 border border-[#3B3A3A] hover:shadow-lg transition-all duration-300"
-            >
-              <div className="h-48 bg-gradient-to-br from-[#fe7500] to-[#ff3f17] rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">₿yte Federal</span>
-              </div>
-              <h3 className="text-xl font-bold text-[#151515] dark:text-white mb-2">
-                Custodial Crypto Wallet
-              </h3>
-              <p className="text-sm text-[#3B3A3A] dark:text-gray-400 mb-4">
-                Core contributor to React Native cryptocurrency wallet with fiat-to-crypto onboarding via banking APIs
-              </p>
-              <div className="flex gap-2 mb-4">
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  React Native
-                </span>
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  Python
-                </span>
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  FastAPI
-                </span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="bg-[#e8d5b8] dark:bg-[#2a2928] rounded-2xl p-6 border border-[#3B3A3A] hover:shadow-lg transition-all duration-300"
-            >
-              <div className="h-48 bg-gradient-to-br from-[#3B3A3A] to-[#1a1918] rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">Interactive Alchemy</span>
-              </div>
-              <h3 className="text-xl font-bold text-[#151515] dark:text-white mb-2">
-                Software Consulting
-              </h3>
-              <p className="text-sm text-[#3B3A3A] dark:text-gray-400 mb-4">
-                Software consulting business focused on curating custom B2B software solutions and web development
-              </p>
-              <div className="flex gap-2 mb-4">
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  Consulting
-                </span>
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  Web Design
-                </span>
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  B2B
-                </span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="bg-[#e8d5b8] dark:bg-[#2a2928] rounded-2xl p-6 border border-[#3B3A3A] hover:shadow-lg transition-all duration-300"
-            >
-              <div className="h-48 bg-gradient-to-br from-[#e8d5b8] to-[#3B3A3A] rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">🪙 Martian Republic</span>
-              </div>
-              <h3 className="text-xl font-bold text-[#151515] dark:text-white mb-2">
-                HD Crypto Wallet
-              </h3>
-              <p className="text-sm text-[#3B3A3A] dark:text-gray-400 mb-4">
-                Client-side HD wallet for Marscoin cryptocurrency with bitcoin-lib.js and encrypted localStorage
-              </p>
-              <div className="flex gap-2 mb-4">
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  JavaScript
-                </span>
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  bitcoin-lib.js
-                </span>
-                <span className="text-xs px-2 py-1 bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded text-[#3B3A3A] dark:text-gray-400">
-                  Open Source
-                </span>
-              </div>
-            </motion.div>
-          </div> */}
-          <Projects />
-
-          <div className="text-center mt-12">
-            <WrapButton href="/projects">
-              VIEW ALL PROJECTS
-            </WrapButton>
-          </div>
-        </div>
-      </section>
-
       {/* Services Section */}
-      <section className="relative py-24 bg-[#1a1918]">
+      <section id="about-section" className="relative py-24 bg-[#1a1918] border-2 border-card rounded-xl m-5 p-5">
         <div className="absolute inset-0">
           <DotPattern className="opacity-10 fill-[#3B3A3A]" />
         </div>
@@ -386,9 +342,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Projects Section */}
+      <section id="projects-section" className="relative py-24 bg-[#f5f3ee] dark:bg-[#1f1e1d] border-2 border-card rounded-xl m-5 p-5">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-[#151515] dark:text-white mb-4">
+              Featured Projects
+            </h2>
+            <p className="text-lg text-[#3B3A3A] dark:text-gray-400 max-w-2xl mx-auto">
+              A selection of my recent work showcasing modern web technologies and creative solutions
+            </p>
+          </motion.div>
+
+          <Projects 
+            initialCount={3}
+            showExpandButton={true}
+            expandButtonText="VIEW ALL PROJECTS"
+          />
+        </div>
+      </section>
+
       {/* Footer */}
       <Footer />
-      
     </LayoutWrapper>
   )
 }

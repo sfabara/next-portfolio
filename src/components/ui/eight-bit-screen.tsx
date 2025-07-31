@@ -342,14 +342,16 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
       position: 'relative', 
       display: 'inline-block',
       padding: pixelSize, // Add padding to prevent clipping on hover
+      // background:"transparent"
     }}>
       <div 
+        className="bg-[#fefefe] dark:bg-[#151515]"
         ref={containerRef}
         style={{
           position: 'relative',
           width: cols * pixelSize,
           height: rows * pixelSize,
-          background: "#ffffff10",
+          // background: "#ffffff10",
           borderRadius: '5px',
           overflow: 'hidden',
           cursor: enableScatter ? 'pointer' : (enableHover ? 'crosshair' : 'default'),
