@@ -29,27 +29,8 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 			// Clear existing triggers
 			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-			// Only apply sticky effects on larger screens (desktop)
-			if (window.innerWidth >= 1024) {
-				cards.forEach((card, index) => {
-					if (!card) return;
-
-					const startPosition = 150 + index * 150;
-
-					ScrollTrigger.create({
-						trigger: card,
-						start: `top ${startPosition}px`,
-						end: "max",
-						pin: true,
-						pinSpacing: false,
-						onToggle: (self) => {
-							if (self.isActive) {
-								card.style.zIndex = String(50 - index);
-							}
-						},
-					});
-				});
-			}
+			// Note: Cards are now fixed positioned from bottom, so scroll triggers may not be needed
+			// Keeping this function for potential future scroll effects
 		};
 
 		// Setup triggers initially
@@ -219,8 +200,8 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 			</div>
 
 			{/* Desktop Sticky Cards Section - Only visible on desktop */}
-			<div className="hidden lg:block absolute right-4 top-[40vh] w-[280px] z-40">
-				<div className="space-y-64">
+			<div className="hidden lg:block fixed right-4 bottom-8 w-[280px] z-40">
+				<div className="space-y-6 flex flex-col">
 					{/* Desktop Connect Card */}
 					{/* <Link href="/connect" className="cursor-pointer p-6 all-unset"> */}
 						<motion.div
