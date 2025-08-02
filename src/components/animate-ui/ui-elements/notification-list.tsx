@@ -7,22 +7,25 @@ import { motion, type Transition } from 'motion/react';
 const notifications = [
   {
     id: 1,
-    title: 'NPM Install Complete',
-    subtitle: '1,227 packages added!',
-    time: 'just now',
-    count: 2,
+    title: 'feat: user icon',
+    subtitle: 'Commit d6d5334',
+    time: '3 days ago',
+    count: undefined,
+    hash: 'd6d5334',
   },
   {
     id: 2,
-    title: 'Build Succeeded',
-    subtitle: 'Build finished in 12.34s',
-    time: '1m 11s',
+    title: 'feat: responsive mobile scroll trigger',
+    subtitle: 'Commit 56132e3',
+    time: '3 days ago',
+    hash: '56132e3',
   },
   {
     id: 3,
-    title: 'Lint Passed',
-    subtitle: 'No problems found',
-    time: '5m',
+    title: 'feat: added rolling text + new dialog style',
+    subtitle: 'Commit 844e1cb',
+    time: '4 days ago',
+    hash: '844e1cb',
   },
 ];
 
@@ -76,20 +79,29 @@ function NotificationList() {
               zIndex: notifications.length - i,
             }}
           >
-            <div className="flex justify-between items-center">
-              <h1 className="text-sm font-medium">{notification.title}</h1>
-              {notification.count && (
-                <div className="flex items-center text-xs gap-0.5 font-medium text-neutral-500 dark:text-neutral-300">
-                  <RotateCcw className="size-3" />
-                  <span>{notification.count}</span>
-                </div>
-              )}
-            </div>
-            <div className="text-xs text-neutral-500 font-medium">
-              <span>{notification.time}</span>
-              &nbsp;•&nbsp;
-              <span>{notification.subtitle}</span>
-            </div>
+            <a
+              href={`https://github.com/sfabara/next-portfolio/commit/${notification.hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <div className="flex justify-between items-center">
+                <h1 className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {notification.title}
+                </h1>
+                {notification.count && (
+                  <div className="flex items-center text-xs gap-0.5 font-medium text-neutral-500 dark:text-neutral-300">
+                    <RotateCcw className="size-3" />
+                    <span>{notification.count}</span>
+                  </div>
+                )}
+              </div>
+              <div className="text-xs text-neutral-500 font-medium">
+                <span>{notification.time}</span>
+                &nbsp;•&nbsp;
+                <span>{notification.subtitle}</span>
+              </div>
+            </a>
           </motion.div>
         ))}
       </div>
@@ -111,7 +123,14 @@ function NotificationList() {
             variants={viewAllTextVariants}
             transition={textSwitchTransition}
           >
-            View all <ArrowUpRight className="size-4" />
+            <a
+              href="https://github.com/sfabara/next-portfolio/commits/main"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              View all <ArrowUpRight className="size-4" />
+            </a>
           </motion.span>
         </span>
       </div>

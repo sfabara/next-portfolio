@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
 import EightBitScreen from "./eight-bit-screen";
 import { Linkedin, Github, Instagram, Mail } from "lucide-react";
+import Link from "next/link";
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,12 +60,12 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 			setupScrollTriggers();
 		};
 
-		window.addEventListener('resize', handleResize);
+		window.addEventListener("resize", handleResize);
 
 		// Clean up function
 		return () => {
 			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-			window.removeEventListener('resize', handleResize);
+			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
 
@@ -78,7 +79,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 				</div>
 
 				{/* Notification List - Hidden on mobile, visible on larger screens */}
-				<div 
+				<div
 					className="hidden lg:block fixed top-4 right-4 z-50"
 					onMouseEnter={() => setIsNotificationHovered(true)}
 					onMouseLeave={() => setIsNotificationHovered(false)}
@@ -97,45 +98,62 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 				<h2 className="text-xl font-bold text-center mb-6">Connect With Me</h2>
 				<div className="space-y-6">
 					{/* Mobile Connect Card */}
-					<motion.div
-						className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-4 text-[#ff8c00] relative shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden w-full max-w-[280px] mx-auto"
-						style={{
-							fontFamily: 'monospace',
-							imageRendering: 'pixelated',
-							filter: 'contrast(1.1) brightness(1.1)',
-						}}
-					>
-						{/* Scanlines effect */}
-						<div 
-							className="absolute inset-0 pointer-events-none"
+					<Link href="/connect">
+						<motion.div
+							className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-4 text-[#ff8c00] relative shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden w-full max-w-[280px] mx-auto"
 							style={{
-								background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,140,0,0.03) 2px, rgba(255,140,0,0.03) 4px)',
-								zIndex: 1
+								fontFamily: "monospace",
+								imageRendering: "pixelated",
+								filter: "contrast(1.1) brightness(1.1)",
 							}}
-						/>
-						
-						{/* Green glowing circle */}
-						<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
-						
-						{/* Content */}
-						<div className="relative z-10">
-							<h3 className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80" style={{ fontFamily: 'monospace', textShadow: '0 0 8px rgba(255,140,0,0.5)' }}>
-								&gt; OPEN_TO_WORK.exe
-							</h3>
-							<p className="text-lg font-bold tracking-wide" style={{ fontFamily: 'monospace', textShadow: '0 0 12px rgba(255,140,0,0.4)' }}>
-								[CONNECT]
-							</p>
-							<div className="mt-2 text-xs opacity-60 font-mono">
-								STATUS: ONLINE
+							whileHover={{ scale: 1.02 }}
+							whileTap={{ scale: 0.98 }}
+						>
+							{/* Scanlines effect */}
+							<div
+								className="absolute inset-0 pointer-events-none"
+								style={{
+									background:
+										"repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,140,0,0.03) 2px, rgba(255,140,0,0.03) 4px)",
+									zIndex: 1,
+								}}
+							/>
+
+							{/* Green glowing circle */}
+							<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
+
+							{/* Content */}
+							<div className="relative z-10">
+								<h3
+									className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80"
+									style={{
+										fontFamily: "monospace",
+										textShadow: "0 0 8px rgba(255,140,0,0.5)",
+									}}
+								>
+									&gt; OPEN_TO_WORK.exe
+								</h3>
+								<p
+									className="text-lg font-bold tracking-wide"
+									style={{
+										fontFamily: "monospace",
+										textShadow: "0 0 12px rgba(255,140,0,0.4)",
+									}}
+								>
+									[CONNECT]
+								</p>
+								<div className="mt-2 text-xs opacity-60 font-mono">
+									STATUS: ONLINE
+								</div>
 							</div>
-						</div>
-						
-						{/* Corner decorations */}
-						<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
-						<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
-						<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
-						<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
-					</motion.div>
+
+							{/* Corner decorations */}
+							<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
+							<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
+							<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
+							<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
+						</motion.div>
+					</Link>
 
 					{/* Mobile Social Links */}
 					<motion.div className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-2 py-4 border border-[#3B3A3A] relative w-full max-w-[280px] mx-auto">
@@ -156,14 +174,14 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 							>
 								<Github className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
 							</a>
-							<a
+							{/* <a
 								href="https://instagram.com/your-profile"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="p-2 rounded-lg bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:from-[#6a2c91] hover:via-[#d41717] hover:to-[#d89c3a] transition-all duration-200 group"
 							>
 								<Instagram className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
-							</a>
+							</a> */}
 							<a
 								href="mailto:your-email@example.com"
 								className="p-2 rounded-lg bg-[#34d399] hover:bg-[#10b981] transition-colors duration-200 group"
@@ -174,7 +192,10 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 					</motion.div>
 
 					{/* Mobile Eight Bit Screen */}
-					<motion.div className="bg-[#ffe4be] rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto" style={{ padding: 0, position: 'relative' }}>
+					<motion.div
+						className="bg-[#ffe4be] rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto"
+						style={{ padding: 0, position: "relative" }}
+					>
 						<div className="flex justify-center items-center px-2">
 							<EightBitScreen
 								rows={10}
@@ -201,52 +222,69 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 			<div className="hidden lg:block absolute right-4 top-[40vh] w-[280px] z-40">
 				<div className="space-y-64">
 					{/* Desktop Connect Card */}
-					<motion.div
-						ref={(el) => {
-							if (el) cardsRef.current[0] = el;
-						}}
-						transition={{ duration: 0.6 }}
-						animate={{
-							y: isNotificationHovered ? 80 : 0,
-						}}
-						className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-6 text-[#ff8c00] relative z-30 shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden"
-						style={{
-							fontFamily: 'monospace',
-							imageRendering: 'pixelated',
-							filter: 'contrast(1.1) brightness(1.1)',
-						}}
-					>
-						{/* Scanlines effect */}
-						<div 
-							className="absolute inset-0 pointer-events-none"
-							style={{
-								background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,140,0,0.03) 2px, rgba(255,140,0,0.03) 4px)',
-								zIndex: 1
+					{/* <Link href="/connect" className="cursor-pointer p-6 all-unset"> */}
+						<motion.div
+							ref={(el) => {
+								if (el) cardsRef.current[0] = el;
 							}}
-						/>
-						
-						{/* Green glowing circle */}
-						<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
-						
-						{/* Content */}
-						<div className="relative z-10">
-							<h3 className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80" style={{ fontFamily: 'monospace', textShadow: '0 0 8px rgba(255,140,0,0.5)' }}>
-								&gt; OPEN_TO_WORK.exe
-							</h3>
-							<p className="text-xl font-bold tracking-wide" style={{ fontFamily: 'monospace', textShadow: '0 0 12px rgba(255,140,0,0.4)' }}>
-								[CONNECT]
-							</p>
-							<div className="mt-2 text-xs opacity-60 font-mono">
-								STATUS: ONLINE
+							transition={{ duration: 0.6 }}
+							animate={{
+								y: isNotificationHovered ? 80 : 0,
+							}}
+							className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-6 text-[#ff8c00] relative z-30 shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden"
+							style={{
+								fontFamily: "monospace",
+								imageRendering: "pixelated",
+								filter: "contrast(1.1) brightness(1.1)",
+							}}
+							whileHover={{ scale: 1.02 }}
+							whileTap={{ scale: 0.98 }}
+						>
+							{/* Scanlines effect */}
+							<div
+								className="absolute inset-0 pointer-events-none"
+								style={{
+									background:
+										"repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,140,0,0.03) 2px, rgba(255,140,0,0.03) 4px)",
+									zIndex: 1,
+								}}
+							/>
+
+							{/* Green glowing circle */}
+							<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
+
+							{/* Content */}
+							<div className="relative z-10">
+								<h3
+									className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80"
+									style={{
+										fontFamily: "monospace",
+										textShadow: "0 0 8px rgba(255,140,0,0.5)",
+									}}
+								>
+									&gt; OPEN_TO_WORK.exe
+								</h3>
+								<p
+									className="text-xl font-bold tracking-wide"
+									style={{
+										fontFamily: "monospace",
+										textShadow: "0 0 12px rgba(255,140,0,0.4)",
+									}}
+								>
+									[CONNECT]
+								</p>
+								<div className="mt-2 text-xs opacity-60 font-mono">
+									STATUS: ONLINE
+								</div>
 							</div>
-						</div>
-						
-						{/* Corner decorations */}
-						<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
-						<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
-						<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
-						<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
-					</motion.div>
+
+							{/* Corner decorations */}
+							<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
+							<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
+							<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
+							<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
+						</motion.div>
+					{/* </Link> */}
 
 					{/* Desktop Social Links */}
 					<motion.div
@@ -277,14 +315,14 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 							>
 								<Github className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
 							</a>
-							<a
+							{/* <a
 								href="https://instagram.com/your-profile"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="p-2 rounded-lg bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:from-[#6a2c91] hover:via-[#d41717] hover:to-[#d89c3a] transition-all duration-200 group"
 							>
 								<Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
-							</a>
+							</a> */}
 							<a
 								href="mailto:your-email@example.com"
 								className="p-2 rounded-lg bg-[#34d399] hover:bg-[#10b981] transition-colors duration-200 group"
@@ -304,7 +342,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 							y: isNotificationHovered ? 80 : 0,
 						}}
 						className="bg-[#ffe4be] rounded-2xl overflow-hidden"
-						style={{ padding: 0, position: 'relative', zIndex: 10 }}
+						style={{ padding: 0, position: "relative", zIndex: 10 }}
 					>
 						<div className="flex justify-center items-center px-4">
 							<EightBitScreen

@@ -18,6 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Modern Portfolio - Bento Box Design",
   description: "A stunning portfolio with bento box grid layout",
+  icons: {
+    icon: "/user.jpg",
+    shortcut: "/user.jpg",
+    apple: "/user.jpg",
+  },
 };
 
 export default function RootLayout({
