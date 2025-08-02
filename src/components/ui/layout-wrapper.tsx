@@ -79,8 +79,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 				<h2 className="text-xl font-bold text-center mb-6">Connect With Me</h2>
 				<div className="space-y-6">
 					{/* Mobile Connect Card */}
-					<Link href="/connect">
-						<motion.div
+						{/* <motion.div
 							className="bg-[#1a1a1a] border-2 border-[#ff8c00] rounded-lg p-4 text-[#ff8c00] relative shadow-[0_0_20px_rgba(255,140,0,0.3)] overflow-hidden w-full max-w-[280px] mx-auto"
 							style={{
 								fontFamily: "monospace",
@@ -90,7 +89,6 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}
 						>
-							{/* Scanlines effect */}
 							<div
 								className="absolute inset-0 pointer-events-none"
 								style={{
@@ -100,10 +98,8 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								}}
 							/>
 
-							{/* Green glowing circle */}
 							<div className="absolute top-4 right-4 w-4 h-4 bg-[#00ff41] rounded-full shadow-[0_0_12px_rgba(0,255,65,0.8)] animate-pulse" />
 
-							{/* Content */}
 							<div className="relative z-10">
 								<h3
 									className="text-xs font-bold mb-3 tracking-wider uppercase opacity-80"
@@ -128,13 +124,11 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								</div>
 							</div>
 
-							{/* Corner decorations */}
 							<div className="absolute top-1 left-1 w-2 h-2 border-l-2 border-t-2 border-[#ff8c00]" />
 							<div className="absolute top-1 right-1 w-2 h-2 border-r-2 border-t-2 border-[#ff8c00]" />
 							<div className="absolute bottom-1 left-1 w-2 h-2 border-l-2 border-b-2 border-[#ff8c00]" />
 							<div className="absolute bottom-1 right-1 w-2 h-2 border-r-2 border-b-2 border-[#ff8c00]" />
-						</motion.div>
-					</Link>
+						</motion.div> */}
 
 					{/* Mobile Social Links */}
 					<motion.div className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-2 py-4 border border-[#3B3A3A] relative w-full max-w-[280px] mx-auto">
@@ -173,7 +167,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 					</motion.div>
 
 					{/* Mobile Eight Bit Screen */}
-					<motion.div
+					{/* <motion.div
 						className="bg-[#ffe4be] rounded-2xl overflow-hidden w-full max-w-[280px] mx-auto"
 						style={{ padding: 0, position: "relative" }}
 					>
@@ -190,11 +184,12 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								className="bg-[#ffe4be] dark:bg-[#343030]"
 							/>
 						</div>
-					</motion.div>
+					</motion.div> */}
 				</div>
 
 				{/* Mobile Notification List */}
-				<div className="w-full mt-8">
+				<div className="w-full mt-8 flex flex-col items-center">
+					<h2 className="text-xl font-bold text-center mb-6">Latest Updates to Portfolio</h2>
 					<NotificationList />
 				</div>
 			</div>
