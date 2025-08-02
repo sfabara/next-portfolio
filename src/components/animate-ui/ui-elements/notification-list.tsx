@@ -1,33 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import { RotateCcw, ArrowUpRight } from 'lucide-react';
+import { RotateCcw, ArrowUpRight, Loader2 } from 'lucide-react';
 import { motion, type Transition } from 'motion/react';
 
-const notifications = [
-  {
-    id: 1,
-    title: 'feat: user icon',
-    subtitle: 'Commit d6d5334',
-    time: '3 days ago',
-    count: undefined,
-    hash: 'd6d5334',
-  },
-  {
-    id: 2,
-    title: 'feat: responsive mobile scroll trigger',
-    subtitle: 'Commit 56132e3',
-    time: '3 days ago',
-    hash: '56132e3',
-  },
-  {
-    id: 3,
-    title: 'feat: added rolling text + new dialog style',
-    subtitle: 'Commit 844e1cb',
-    time: '4 days ago',
-    hash: '844e1cb',
-  },
-];
+interface Notification {
+  id: number;
+  title: string;
+  subtitle: string;
+  time: string;
+  hash: string;
+  author: string;
+  url: string;
+  count?: number;
+}
 
 const transition: Transition = {
   type: 'spring',
@@ -62,6 +48,65 @@ const viewAllTextVariants = {
 };
 
 function NotificationList() {
+  const [notifications, setNotifications] = React.useState<Notification[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const fetchCommits = React.useCallback(async () => {
+    try {
+      const response = await fetch('/api/commits');
+      if (!response.ok) {
+        throw new Error('Failed to fetch commits');
+      }
+      const data = await response.json();
+      setNotifications(data);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error fetching commits:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    // Initial fetch
+    fetchCommits();
+
+    // Set up polling for real-time updates (every 30 seconds)
+    const interval = setInterval(fetchCommits, 30000);
+
+    return () => clearInterval(interval);
+  }, [fetchCommits]);
+
+  if (isLoading) {
+    return (
+      <div className="bg-neutral-200 dark:bg-neutral-900 p-3 rounded-3xl w-xs space-y-1 shadow-md">
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="size-6 animate-spin text-neutral-500" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-neutral-200 dark:bg-neutral-900 p-3 rounded-3xl w-xs space-y-1 shadow-md">
+        <div className="text-center py-4">
+          <p className="text-sm text-red-500 dark:text-red-400">
+            Failed to load commits
+          </p>
+          <button 
+            onClick={fetchCommits}
+            className="text-xs text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 mt-2"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       className="bg-neutral-200 dark:bg-neutral-900 p-3 rounded-3xl w-xs space-y-1 shadow-md"
@@ -80,7 +125,7 @@ function NotificationList() {
             }}
           >
             <a
-              href={`https://github.com/sfabara/next-portfolio/commit/${notification.hash}`}
+              href={notification.url}
               target="_blank"
               rel="noopener noreferrer"
               className="block"
@@ -100,6 +145,12 @@ function NotificationList() {
                 <span>{notification.time}</span>
                 &nbsp;•&nbsp;
                 <span>{notification.subtitle}</span>
+                {notification.author && (
+                  <>
+                    &nbsp;•&nbsp;
+                    <span>by {notification.author}</span>
+                  </>
+                )}
               </div>
             </a>
           </motion.div>
@@ -116,7 +167,7 @@ function NotificationList() {
             variants={notificationTextVariants}
             transition={textSwitchTransition}
           >
-            Notifications
+            Recent Commits
           </motion.span>
           <motion.span
             className="text-sm font-medium text-neutral-600 dark:text-neutral-300 flex items-center gap-1 cursor-pointer select-none row-start-1 col-start-1"
