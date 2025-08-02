@@ -134,7 +134,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 					<motion.div className="bg-[#f5f3ee] dark:bg-[#1f1e1d] rounded-2xl p-2 py-4 border border-[#3B3A3A] relative w-full max-w-[280px] mx-auto">
 						<div className="flex justify-center items-center gap-3">
 							<a
-								href="https://linkedin.com/in/your-profile"
+								href="https://www.linkedin.com/in/sfabara/"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="p-2 rounded-lg bg-[#0077b5] hover:bg-[#005885] transition-colors duration-200 group"
@@ -142,7 +142,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								<Linkedin className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
 							</a>
 							<a
-								href="https://github.com/your-username"
+								href="https://github.com/sfabara"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="p-2 rounded-lg bg-[#333] hover:bg-[#24292e] transition-colors duration-200 group"
@@ -158,7 +158,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								<Instagram className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
 							</a> */}
 							<a
-								href="mailto:your-email@example.com"
+								href="mailto:sfabaraa@gmail.com"
 								className="p-2 rounded-lg bg-[#34d399] hover:bg-[#10b981] transition-colors duration-200 group"
 							>
 								<Mail className="w-4 h-4 text-white group-hover:scale-110 transition-transform duration-200" />
