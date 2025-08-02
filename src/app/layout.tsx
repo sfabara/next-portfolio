@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Portfolio - Bento Box Design",
-  description: "A stunning portfolio with bento box grid layout",
+  title: "Sebastian Fabara - Software Engineer",
+  description: "Sebastian Fabara is a software engineer with a passion for building scalable and efficient systems.",
   icons: {
     icon: "/user.jpg",
     shortcut: "/user.jpg",
