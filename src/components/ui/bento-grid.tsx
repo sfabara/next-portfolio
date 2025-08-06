@@ -3,11 +3,8 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
-import { ArrowRight, Sparkles, Zap, Globe, Code2, Palette, Rocket, Database, Shield, Settings, Server } from "lucide-react"
+import {  Sparkles, Rocket, Database, Shield, Settings, Server } from "lucide-react"
 import { Badge } from "./badge"
-import { Button } from "./button"
-import FlipLink from "./text-effect-flipper"
 
 interface BentoCardProps {
   className?: string

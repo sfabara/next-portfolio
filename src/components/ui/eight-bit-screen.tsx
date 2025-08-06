@@ -13,12 +13,15 @@ interface Pixel {
   gridY: number;
 }
 
+type AnimationType = 'fire' | 'hourglass' | 'none';
+
 interface EightBitScreenProps {
   rows?: number;
   cols?: number;
   pixelSize?: number;
-  showFire?: boolean;
+  animationType?: AnimationType;
   fireColors?: string[];
+  hourglassColors?: string[];
   backgroundColor?: string;
   pixelColor?: string;
   enableHover?: boolean;
@@ -34,6 +37,18 @@ interface EightBitScreenProps {
 // Fire color palette - from hottest to coolest
 const DEFAULT_FIRE_COLORS = [
   '#ffffff', // white (hottest)
+  '#ffff00', // yellow
+  '#ffa500', // orange
+  '#ff6600', // dark orange
+  '#ff0000', // red
+  '#800000', // dark red
+  '#400000', // very dark red
+  '#000000', // black (coolest/no fire)
+];
+
+// Hourglass color palette - green theme to match reference
+const DEFAULT_HOURGLASS_COLORS = [
+  '#5487b0', // white (hottest)
   '#ffff00', // yellow
   '#ffa500', // orange
   '#ff6600', // dark orange
@@ -67,8 +82,9 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
   rows = 12,
   cols = 20,
   pixelSize = 20,
-  showFire = true,
+  animationType = 'hourglass',
   fireColors = DEFAULT_FIRE_COLORS,
+  hourglassColors = DEFAULT_HOURGLASS_COLORS,
   backgroundColor = '#000',
   pixelColor = '#000000',
   enableHover = true,
@@ -90,13 +106,13 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const pixelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const scatterTimeoutRef = useRef<number | undefined>(null);
-  const fireAnimationRef = useRef<number>(null);
-  const fireBufferRef = useRef<number[][]>([]);
+  const animationRef = useRef<number>(null);
+  const animationBufferRef = useRef<number[][]>([]);
   const rafRef = useRef<number>(null);
 
-  // Initialize fire buffer
+  // Initialize animation buffer
   useEffect(() => {
-    if (!showFire) return;
+    if (animationType === 'none') return;
     
     const buffer: number[][] = [];
     for (let y = 0; y < rows; y++) {
@@ -105,92 +121,327 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
         buffer[y][x] = 0;
       }
     }
-    fireBufferRef.current = buffer;
-  }, [rows, cols, showFire]);
+    animationBufferRef.current = buffer;
+  }, [rows, cols, animationType]);
 
-  // Fire animation
+  const generateHourglassFrame = useCallback((frameCount: number) => {
+    const buffer = animationBufferRef.current;
+    const newBuffer: number[][] = [];
+    
+    // Initialize new buffer with zeros
+    for (let y = 0; y < rows; y++) {
+      newBuffer[y] = new Array(cols).fill(0);
+    }
+
+    const centerX = Math.floor(cols / 2);
+    const totalFrames = 240; // Total animation cycle
+    const middleY = Math.floor(rows / 2);
+
+    // Define precise hourglass shape - more geometric like the reference
+    const hourglassWalls: number[][] = [];
+    for (let y = 0; y < rows; y++) {
+      hourglassWalls[y] = new Array(cols).fill(0);
+    }
+
+    // Create a more precise hourglass shape
+    const hourglassWidth = Math.min(cols - 6, rows - 6); // Make it fit nicely
+    const halfWidth = Math.floor(hourglassWidth / 2);
+    
+    for (let y = 0; y < rows; y++) {
+      // Calculate the width at this row for the hourglass shape
+      let wallWidth;
+      
+      if (y <= 1 || y >= rows - 2) {
+        // Top and bottom - full width
+        wallWidth = halfWidth;
+      } else if (y === middleY || y === middleY - 1) {
+        // Middle - narrowest point (1 pixel wide opening)
+        wallWidth = 1;
+      } else {
+        // Calculate slope - more dramatic narrowing
+        const distFromEdge = Math.min(y - 1, rows - 2 - y);
+        const distFromMiddle = Math.abs(y - middleY);
+        
+        // Create a more linear taper
+        const maxDist = Math.floor(rows / 2) - 1;
+        const ratio = distFromMiddle / maxDist;
+        wallWidth = Math.max(1, Math.floor(1 + (halfWidth - 1) * ratio));
+      }
+      
+      // Draw the walls at calculated positions
+      const leftWall = centerX - wallWidth;
+      const rightWall = centerX + wallWidth;
+      
+      // Top and bottom solid walls
+      if (y === 0 || y === rows - 1) {
+        for (let x = leftWall; x <= rightWall; x++) {
+          if (x >= 0 && x < cols) {
+            hourglassWalls[y][x] = 1;
+          }
+        }
+      } else {
+        // Side walls only
+        if (leftWall >= 0 && leftWall < cols) hourglassWalls[y][leftWall] = 1;
+        if (rightWall >= 0 && rightWall < cols && rightWall !== leftWall) hourglassWalls[y][rightWall] = 1;
+      }
+    }
+
+    // Handle sand animation
+    const cyclePosition = frameCount % totalFrames;
+    const fallProgress = Math.min(1, cyclePosition / (totalFrames * 0.8)); // 80% of cycle for falling
+    
+    if (fallProgress < 1) {
+      // Sand is falling
+      const totalSandRows = Math.floor((rows - 4) / 2); // Available rows for sand in each chamber
+      const fallenRows = Math.floor(fallProgress * totalSandRows);
+      
+             // Draw sand in top chamber (decreasing)
+       const topChamberStart = 1;
+       const topChamberEnd = middleY - 1;
+       const remainingSandInTop = totalSandRows - fallenRows;
+       
+       for (let y = topChamberEnd - remainingSandInTop + 1; y <= topChamberEnd; y++) {
+         if (y >= topChamberStart && y < rows) {
+           // Calculate internal width (excluding walls)
+           const distFromMiddle = Math.abs(y - middleY);
+           const maxDist = Math.floor(rows / 2) - 1;
+           const ratio = distFromMiddle / maxDist;
+           const wallWidth = Math.max(1, Math.floor(1 + (halfWidth - 1) * ratio));
+           
+           const leftEdge = centerX - wallWidth + 1;
+           const rightEdge = centerX + wallWidth - 1;
+           
+           for (let x = leftEdge; x <= rightEdge; x++) {
+             if (x >= 0 && x < cols && hourglassWalls[y][x] === 0) {
+               // Calculate sand intensity based on multiple factors
+               const depthFromTop = y - (topChamberEnd - remainingSandInTop + 1);
+               const maxDepth = remainingSandInTop - 1;
+               const depthRatio = maxDepth > 0 ? depthFromTop / maxDepth : 0;
+               
+               // Distance from center (for radial gradient effect)
+               const distFromCenterX = Math.abs(x - centerX);
+               const maxDistFromCenter = rightEdge - leftEdge > 0 ? (rightEdge - leftEdge) / 2 : 1;
+               const centerRatio = distFromCenterX / maxDistFromCenter;
+               
+               // Base intensity (brighter at top and center)
+               let intensity = 2 + Math.floor(depthRatio * 3) + Math.floor(centerRatio * 2);
+               
+               // Add some randomness for texture
+               if (Math.random() > 0.7) {
+                 intensity += Math.random() > 0.5 ? 1 : -1;
+               }
+               
+               // Clamp to valid range
+               intensity = Math.max(1, Math.min(6, intensity));
+               
+               newBuffer[y][x] = intensity;
+             }
+           }
+         }
+       }
+      
+             // Draw sand in bottom chamber (increasing)
+       const bottomChamberStart = middleY + 1;
+       const bottomChamberEnd = rows - 2;
+       
+       for (let i = 0; i < fallenRows; i++) {
+         const y = bottomChamberEnd - i;
+         if (y >= bottomChamberStart && y < rows) {
+           // Calculate internal width (excluding walls)
+           const distFromMiddle = Math.abs(y - middleY);
+           const maxDist = Math.floor(rows / 2) - 1;
+           const ratio = distFromMiddle / maxDist;
+           const wallWidth = Math.max(1, Math.floor(1 + (halfWidth - 1) * ratio));
+           
+           const leftEdge = centerX - wallWidth + 1;
+           const rightEdge = centerX + wallWidth - 1;
+           
+           for (let x = leftEdge; x <= rightEdge; x++) {
+             if (x >= 0 && x < cols && hourglassWalls[y][x] === 0) {
+               // Calculate sand intensity for bottom chamber
+               const depthFromBottom = bottomChamberEnd - y;
+               const heightFromBottom = i;
+               const maxHeight = fallenRows - 1;
+               
+               // Distance from center (for radial gradient effect)
+               const distFromCenterX = Math.abs(x - centerX);
+               const maxDistFromCenter = rightEdge - leftEdge > 0 ? (rightEdge - leftEdge) / 2 : 1;
+               const centerRatio = distFromCenterX / maxDistFromCenter;
+               
+               // Height ratio (newer sand at top is brighter)
+               const heightRatio = maxHeight > 0 ? heightFromBottom / maxHeight : 0;
+               
+               // Base intensity (darker at bottom, brighter at top and center)
+               let intensity = 3 + Math.floor(heightRatio * 2) + Math.floor(centerRatio * 2);
+               
+               // Bottom layer gets extra darkness (compression effect)
+               if (i === 0) {
+                 intensity += 1;
+               }
+               
+               // Recently fallen sand (top layer) gets extra brightness
+               if (i === fallenRows - 1 && fallenRows > 1) {
+                 intensity = Math.max(1, intensity - 2);
+               }
+               
+               // Add some randomness for texture
+               if (Math.random() > 0.8) {
+                 intensity += Math.random() > 0.5 ? 1 : -1;
+               }
+               
+               // Clamp to valid range
+               intensity = Math.max(1, Math.min(6, intensity));
+               
+               newBuffer[y][x] = intensity;
+             }
+           }
+         }
+       }
+      
+             // Falling sand stream through the narrow opening
+       if (fallenRows > 0 && fallenRows < totalSandRows) {
+         if (Math.random() > 0.4) { // Some randomness in the stream
+           if (centerX >= 0 && centerX < cols) {
+             // Falling sand has dynamic intensity based on fall progress
+             const streamIntensity = 1 + Math.floor(Math.random() * 3); // Range 1-3 for bright falling sand
+             newBuffer[middleY][centerX] = streamIntensity;
+           }
+         }
+       }
+    } else {
+      // Pause - all sand in bottom chamber
+      const bottomChamberStart = middleY + 1;
+      const bottomChamberEnd = rows - 2;
+      
+      for (let y = bottomChamberStart; y <= bottomChamberEnd; y++) {
+        // Calculate internal width (excluding walls)
+        const distFromMiddle = Math.abs(y - middleY);
+        const maxDist = Math.floor(rows / 2) - 1;
+        const ratio = distFromMiddle / maxDist;
+        const wallWidth = Math.max(1, Math.floor(1 + (halfWidth - 1) * ratio));
+        
+        const leftEdge = centerX - wallWidth + 1;
+        const rightEdge = centerX + wallWidth - 1;
+        
+        for (let x = leftEdge; x <= rightEdge; x++) {
+          if (x >= 0 && x < cols && hourglassWalls[y][x] === 0) {
+            newBuffer[y][x] = 6; // Sand color
+          }
+        }
+      }
+    }
+
+         // Draw hourglass walls
+     for (let y = 0; y < rows; y++) {
+       for (let x = 0; x < cols; x++) {
+         if (hourglassWalls[y][x] === 1) {
+           newBuffer[y][x] = 7; // Wall color (darkest for contrast)
+         }
+       }
+     }
+
+    return newBuffer;
+  }, [rows, cols]);
+
+  const generateFireFrame = useCallback((frameCount: number) => {
+    const buffer = animationBufferRef.current;
+    const newBuffer: number[][] = [];
+    
+    // Initialize new buffer with zeros
+    for (let y = 0; y < rows; y++) {
+      newBuffer[y] = new Array(cols).fill(0);
+    }
+
+    // Define flame shape - classic 8-bit fire sprite
+    const centerX = Math.floor(cols / 2);
+    const flameHeight = Math.min(8, Math.floor(rows * 0.67));
+    const animOffset = Math.sin(frameCount * 0.1) * 0.5; // Slight animation
+    
+    // Define flame shape for each row (from bottom up)
+    const flameShape = [
+      { width: 5, intensity: 7 },  // Row 0 (bottom)
+      { width: 7, intensity: 7 },  // Row 1
+      { width: 7, intensity: 6 },  // Row 2
+      { width: 5, intensity: 6 },  // Row 3
+      { width: 5, intensity: 5 },  // Row 4
+      { width: 3, intensity: 5 },  // Row 5
+      { width: 3, intensity: 4 },  // Row 6
+      { width: 1, intensity: 3 },  // Row 7 (top)
+    ];
+
+    // Draw the flame
+    for (let i = 0; i < flameHeight && i < flameShape.length; i++) {
+      const y = rows - 1 - i;
+      if (y >= 0) {
+        const shape = flameShape[i];
+        const width = shape.width;
+        const startX = Math.floor(centerX - width / 2 + animOffset);
+        
+        for (let j = 0; j < width; j++) {
+          const x = startX + j;
+          if (x >= 0 && x < cols) {
+            // Add core/edge variation
+            const isCore = j > 0 && j < width - 1 && i < flameHeight - 2;
+            const intensity = isCore ? shape.intensity : Math.max(0, shape.intensity - 2);
+            
+            // Add slight randomness for flickering
+            const flicker = Math.random() > 0.8 ? -1 : 0;
+            newBuffer[y][x] = Math.max(0, Math.min(7, intensity + flicker));
+          }
+        }
+      }
+    }
+
+    // Add some random sparks above the flame
+    if (Math.random() > 0.7 && flameHeight < rows - 1) {
+      const sparkY = rows - flameHeight - 2;
+      const sparkX = Math.floor(centerX + (Math.random() - 0.5) * 4);
+      if (sparkY >= 0 && sparkX >= 0 && sparkX < cols) {
+        newBuffer[sparkY][sparkX] = 2;
+      }
+    }
+
+    return newBuffer;
+  }, [rows, cols]);
+
+  // Main animation loop
   useEffect(() => {
-    if (!showFire) return;
+    if (animationType === 'none') return;
     
     let frameCount = 0;
     
-    const animateFire = () => {
+    const animate = () => {
       frameCount++;
       
-      // Only update fire every 3 frames to reduce CPU usage
+      // Only update animation every 3 frames to reduce CPU usage
       if (frameCount % 3 === 0) {
-        const buffer = fireBufferRef.current;
-        const newBuffer: number[][] = [];
+        let newBuffer: number[][];
         
-        // Initialize new buffer with zeros
-        for (let y = 0; y < rows; y++) {
-          newBuffer[y] = new Array(cols).fill(0);
+        if (animationType === 'fire') {
+          newBuffer = generateFireFrame(frameCount);
+        } else if (animationType === 'hourglass') {
+          newBuffer = generateHourglassFrame(frameCount);
+        } else {
+          return;
         }
 
-        // Define flame shape - classic 8-bit fire sprite
-        const centerX = Math.floor(cols / 2);
-        const flameHeight = Math.min(8, Math.floor(rows * 0.67));
-        const animOffset = Math.sin(frameCount * 0.1) * 0.5; // Slight animation
-        
-        // Define flame shape for each row (from bottom up)
-        const flameShape = [
-          { width: 5, intensity: 7 },  // Row 0 (bottom)
-          { width: 7, intensity: 7 },  // Row 1
-          { width: 7, intensity: 6 },  // Row 2
-          { width: 5, intensity: 6 },  // Row 3
-          { width: 5, intensity: 5 },  // Row 4
-          { width: 3, intensity: 5 },  // Row 5
-          { width: 3, intensity: 4 },  // Row 6
-          { width: 1, intensity: 3 },  // Row 7 (top)
-        ];
-
-        // Draw the flame
-        for (let i = 0; i < flameHeight && i < flameShape.length; i++) {
-          const y = rows - 1 - i;
-          if (y >= 0) {
-            const shape = flameShape[i];
-            const width = shape.width;
-            const startX = Math.floor(centerX - width / 2 + animOffset);
-            
-            for (let j = 0; j < width; j++) {
-              const x = startX + j;
-              if (x >= 0 && x < cols) {
-                // Add core/edge variation
-                const isCore = j > 0 && j < width - 1 && i < flameHeight - 2;
-                const intensity = isCore ? shape.intensity : Math.max(0, shape.intensity - 2);
-                
-                // Add slight randomness for flickering
-                const flicker = Math.random() > 0.8 ? -1 : 0;
-                newBuffer[y][x] = Math.max(0, Math.min(7, intensity + flicker));
-              }
-            }
-          }
-        }
-
-        // Add some random sparks above the flame
-        if (Math.random() > 0.7 && flameHeight < rows - 1) {
-          const sparkY = rows - flameHeight - 2;
-          const sparkX = Math.floor(centerX + (Math.random() - 0.5) * 4);
-          if (sparkY >= 0 && sparkX >= 0 && sparkX < cols) {
-            newBuffer[sparkY][sparkX] = 2;
-          }
-        }
-
-        fireBufferRef.current = newBuffer;
+        animationBufferRef.current = newBuffer;
 
         // Update pixel colors
         if (!isScattered) {
+          const colors = animationType === 'fire' ? fireColors : hourglassColors;
+          
           pixels.forEach((pixel, index) => {
             const pixelElement = pixelRefs.current[index];
             if (pixelElement) {
-              const fireLevel = newBuffer[pixel.gridY][pixel.gridX];
-              const color = fireLevel > 0 ? fireColors[7 - fireLevel] : pixelColor;
+              const level = newBuffer[pixel.gridY][pixel.gridX];
+              const color = level > 0 ? colors[7 - level] : pixelColor;
               pixelElement.style.backgroundColor = color;
               
-              // Add subtle glow effect for fire pixels
-              if (fireLevel > 3) {
-                pixelElement.style.boxShadow = `0 0 ${3 + fireLevel}px ${color}`;
-              } else if (fireLevel > 0) {
+              // Add subtle glow effect for active pixels
+              if (level > 3) {
+                pixelElement.style.boxShadow = `0 0 ${3 + level}px ${color}`;
+              } else if (level > 0) {
                 pixelElement.style.boxShadow = `0 0 3px ${color}`;
               } else {
                 pixelElement.style.boxShadow = 'none';
@@ -200,17 +451,17 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
         }
       }
 
-      fireAnimationRef.current = requestAnimationFrame(animateFire);
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    fireAnimationRef.current = requestAnimationFrame(animateFire);
+    animationRef.current = requestAnimationFrame(animate);
 
     return () => {
-      if (fireAnimationRef.current) {
-        cancelAnimationFrame(fireAnimationRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [pixels, rows, cols, isScattered, showFire, fireColors, pixelColor]);
+  }, [pixels, rows, cols, isScattered, animationType, fireColors, hourglassColors, pixelColor, generateFireFrame, generateHourglassFrame]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current || isScattered || !enableHover) return;
@@ -392,6 +643,7 @@ const EightBitScreen: React.FC<EightBitScreenProps> = ({
         {/* Pixels */}
         {pixels.map((pixel, index) => (
           <div
+          
             key={pixel.key}
             ref={(el) => { pixelRefs.current[index] = el; }}
             style={{

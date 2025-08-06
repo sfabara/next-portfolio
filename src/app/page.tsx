@@ -8,6 +8,7 @@ import { Footer } from "@/components/ui/footer";
 import Projects from "@/sections/projects";
 import { useLenis } from "@/components/ui/lenis-provider";
 import { BentoGrid } from "@/components/ui/bento-grid";
+import EightBitScreen from "@/components/ui/eight-bit-screen";
 
 export default function Home() {
 	const { lenis } = useLenis();
@@ -17,7 +18,7 @@ export default function Home() {
 			{/* Main Section with Grid Layout */}
 			<section
 				id="home-section"
-				className="relative min-h-screen overflow-hidden border-2 border-[#3B3A3A90] rounded-xl m-5 p-6"
+				className="relative min-h-screen overflow-hidden border-2 border-[#3B3A3A90] rounded-xl m-5 p-2"
 			>
 				{/* Background Grid Pattern */}
 				<div className="absolute inset-0">
@@ -160,6 +161,20 @@ export default function Home() {
 
 						{/* Experience Timeline - Left Column (appears second on mobile, first on desktop) */}
 						<div className="lg:col-span-3 lg:order-1 flex flex-col justify-center">
+							<div className="flex flex-col justify-center">
+								<div className="flex flex-col justify-center">
+									<div className="rounded-2xl p-2 ">
+										<EightBitScreen
+											rows={14}
+											cols={14}
+											pixelSize={16}
+											animationType="hourglass"
+											enableHover={true}
+											className="bg-[#ffe4be] dark:bg-[#343030] rounded-2xl"
+										/>
+									</div>
+								</div>
+							</div>
 							<motion.div
 								initial={{ opacity: 0, x: -20 }}
 								animate={{ opacity: 1, x: 0 }}
@@ -287,11 +302,6 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-
-				{/* Floating Grid Elements */}
-				<div className="absolute top-20 left-10 w-32 h-32 border border-[#3B3A3A] rounded-lg opacity-10" />
-				<div className="absolute bottom-20 right-20 w-24 h-24 border border-[#3B3A3A] rounded-full opacity-10" />
-				<div className="absolute top-1/2 right-10 w-16 h-16 bg-[#fe7500] rounded opacity-10" />
 			</section>
 
 			{/* Services Section */}
