@@ -276,7 +276,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 					>
 						<div className="flex justify-center items-center gap-4">
 							<a
-								href="https://linkedin.com/in/your-profile"
+								href="https://www.linkedin.com/in/sfabara/"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="p-2 rounded-lg bg-[#0077b5] hover:bg-[#005885] transition-colors duration-200 group"
@@ -284,7 +284,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								<Linkedin className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
 							</a>
 							<a
-								href="https://github.com/your-username"
+								href="https://github.com/sfabara"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="p-2 rounded-lg bg-[#333] hover:bg-[#24292e] transition-colors duration-200 group"
@@ -300,7 +300,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 								<Instagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
 							</a> */}
 							<a
-								href="mailto:your-email@example.com"
+								href="mailto:sfabaraa@gmail.com"
 								className="p-2 rounded-lg bg-[#34d399] hover:bg-[#10b981] transition-colors duration-200 group"
 							>
 								<Mail className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
